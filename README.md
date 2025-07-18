@@ -34,14 +34,4 @@ An interactive machine learning web app built with **Streamlit** that analyzes u
 ---
 
 ## 📦 How to Run
-
-```bash
-# 1. Clone the repository
-git clone https://github.com/yourusername/chatgpt-review-explorer.git
-cd chatgpt-review-explorer
-
-# 2. Install dependencies
-pip install -r requirements.txt
-
-# 3. Run the Streamlit app
 streamlit run deployment.py
