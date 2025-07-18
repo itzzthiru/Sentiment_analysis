@@ -18,6 +18,7 @@ An interactive machine learning web app built with **Streamlit** that analyzes u
 ## 🚀 Live App
 
 👉 Coming Soon: [Deployment Link Here]
+https://sentimentanalysis-ehtybkmarklxtsxkuvdyz3.streamlit.app/
 
 ---
 
