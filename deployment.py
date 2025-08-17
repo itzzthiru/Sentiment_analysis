@@ -1,15 +1,17 @@
-import streamlit as st
+import os
+import re
+import pickle
+import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 from wordcloud import WordCloud
-import pickle
-import re
+import streamlit as st
 import nltk
-import numpy as np
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 from collections import Counter
+
 
 # NLTK setup
 nltk.download('stopwords')
@@ -293,4 +295,5 @@ elif page == "👤 Creator":
     **GitHub:** [itzzthiru](https://github.com/itzzthiru/Sentiment_analysis)  
     Made with ❤️ using Streamlit, pandas, scikit-learn, and NLTK.
     """)
+
 
