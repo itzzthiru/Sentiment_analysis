@@ -3,55 +3,43 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 from wordcloud import WordCloud
-import pickle, re, nltk, os
+import pickle
+import re
+import nltk
 import numpy as np
 from nltk.corpus import stopwords
-from nltk.stem import WordNetLemmatizer
+from nltk.stem import PorterStemmer
 from collections import Counter
 
-# ---------------- NLTK setup ----------------
-try:
-    stop_words = set(stopwords.words("english"))
-except LookupError:
-    nltk.download("stopwords")
-    stop_words = set(stopwords.words("english"))
+# NLTK setup
+nltk.download('stopwords')
 
-try:
-    lemmatizer = WordNetLemmatizer()
-except LookupError:
-    nltk.download("wordnet")
-    lemmatizer = WordNetLemmatizer()
-
-# ---------------- Page Config ----------------
+# Page Config
 st.set_page_config(
     page_title="ChatGPT Review Explorer",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# ---------------- Text Preprocessing ----------------
+# Text Preprocessing
+stop_words = set(stopwords.words('english'))
+stemmer = PorterStemmer()
+
 def clean_text(text):
-    text = re.sub(r"http\S+|www\S+|https\S+", "", str(text))  # remove links
-    text = re.sub(r"@\w+|#", "", text)                        # remove mentions, hashtags
-    text = re.sub(r"[^a-zA-Z\s]", "", text)                   # remove non-letters
+    text = re.sub(r"http\S+|www\S+|https\S+", '', str(text))   # remove urls
+    text = re.sub(r'@\w+|#', '', text)                        # remove mentions & hashtags
+    text = re.sub(r'[^a-zA-Z\s]', '', text)                   # keep only letters
     text = text.lower()
     tokens = text.split()
-    tokens = [lemmatizer.lemmatize(w) for w in tokens if w not in stop_words]
+    tokens = [stemmer.stem(word) for word in tokens if word not in stop_words]
     return " ".join(tokens)
 
 # ---------------- Load Model ----------------
 @st.cache_resource
 def load_model():
-    for fname in ["sentiment_pipeline.pkl", "model.pkl"]:
-        if os.path.exists(fname):
-            try:
-                with open(fname, "rb") as f:
-                    return pickle.load(f)
-            except Exception as e:
-                st.error(f"⚠ Error loading {fname}: {e}")
-                return None
-    st.error("⚠ No model file found. Please add 'sentiment_pipeline.pkl' or 'model.pkl'.")
-    return None
+    with open("sentiment_pipeline.pkl", "rb") as f:
+        return pickle.load(f)
+
 
 # ---------------- Load Data ----------------
 @st.cache_data
@@ -305,3 +293,4 @@ elif page == "👤 Creator":
     **GitHub:** [itzzthiru](https://github.com/itzzthiru/Sentiment_analysis)  
     Made with ❤️ using Streamlit, pandas, scikit-learn, and NLTK.
     """)
+
